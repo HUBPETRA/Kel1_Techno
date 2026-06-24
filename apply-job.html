@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Hub - Ambil Micro-Job</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
+
+        /* Navbar */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { font-size: 26px; font-weight: 800; color: #f28c28; letter-spacing: -0.5px; }
+        .nav-links { list-style: none; display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: #64748b; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover, .nav-links a.active { color: #f28c28; }
+
+        /* Buttons */
+        .btn-primary { background: #f28c28; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; font-size: 1rem; }
+        .btn-primary:hover { background: #e07b1f; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(242, 140, 40, 0.2); }
+        .btn-outline { background: white; color: #f28c28; border: 2px solid #f28c28; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
+        .btn-outline:hover { background: #fff3e8; }
+
+        /* Layout Container */
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 5%; display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        
+        /* Left Column: Job Details */
+        .job-detail-card { background: white; border-radius: 16px; padding: 40px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
+        .back-link { color: #64748b; text-decoration: none; font-size: 0.95rem; display: inline-flex; align-items: center; margin-bottom: 20px; transition: 0.3s; }
+        .back-link:hover { color: #f28c28; }
+        
+        .job-title { font-size: 2rem; color: #0f172a; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+        .job-meta { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; }
+        .meta-item { display: flex; align-items: center; gap: 5px; color: #64748b; font-size: 0.95rem; font-weight: 500; }
+        
+        .section-title { font-size: 1.2rem; color: #0f172a; font-weight: 700; margin: 25px 0 10px; }
+        .job-description { color: #475569; font-size: 1rem; line-height: 1.8; margin-bottom: 20px; }
+        .job-description ul { margin-left: 20px; margin-bottom: 20px; }
+        .job-description li { margin-bottom: 8px; }
+        
+        .tags-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+        .tag { background: #f1f5f9; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; }
+
+        /* Right Column: Application Form */
+        .apply-card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border: 2px solid #f8fafc; position: sticky; top: 100px; }
+        .price-box { background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 25px; text-align: center; border: 1px dashed #cbd5e1; }
+        .price-label { font-size: 0.9rem; color: #64748b; margin-bottom: 5px; }
+        .price-amount { font-size: 1.8rem; font-weight: 800; color: #10b981; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 0.95rem; font-weight: 600; color: #0f172a; margin-bottom: 8px; }
+        .form-control { width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.3s; font-family: inherit; }
+        .form-control:focus { border-color: #f28c28; }
+        textarea.form-control { resize: vertical; min-height: 120px; }
+        
+        .security-badge { display: flex; align-items: flex-start; gap: 10px; background: #fffbeb; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #fef3c7; }
+        .security-text { font-size: 0.85rem; color: #b45309; line-height: 1.4; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            .apply-card { position: static; margin-top: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Skill Hub.</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="jobs.html" class="active">Micro-Job</a></li>
+            <li><a href="talent.html">Cari Talent</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="index.html" class="btn-primary" style="text-decoration:none; width:auto; padding: 10px 20px;">Ke Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Kolom Kiri: Detail Pekerjaan -->
+        <div class="job-detail-card">
+            <a href="jobs.html" class="back-link">← Kembali ke daftar Micro-Job</a>
+            
+            <h1 class="job-title">Desain Banner Kedai Kopi</h1>
+            <div class="job-meta">
+                <div class="meta-item">🏢 Kopi Senja Surabaya</div>
+                <div class="meta-item">🕒 Tenggat Waktu: 3 Hari</div>
+                <div class="meta-item">📍 Remote (Online)</div>
+            </div>
+            
+            <h2 class="section-title">Deskripsi Proyek</h2>
+            <div class="job-description">
+                <p>Halo talenta Skill Hub! Kami dari Kopi Senja Surabaya sedang mencari mahasiswa Desain Komunikasi Visual (DKV) atau yang mahir dalam desain grafis untuk membantu pembuatan materi promosi kedai kami.</p>
+                <p>Kami akan meluncurkan menu minuman baru bulan depan dan membutuhkan desain *standing banner* yang menarik untuk diletakkan di depan toko.</p>
+                
+                <h2 class="section-title">Detail Kebutuhan / Requirement:</h2>
+                <ul>
+                    <li>Membuat 2 variasi desain *Standing Banner* (Ukuran 60x160 cm).</li>
+                    <li>Tema visual: Hangat, *aesthetic*, dan cocok untuk target pasar anak muda/mahasiswa.</li>
+                    <li>File aset logo dan foto produk mentah (resolusi tinggi) akan kami sediakan.</li>
+                    <li>Hasil akhir diserahkan dalam format siap cetak (PDF) dan format *source file* (.AI atau .PSD).</li>
+                    <li>Bersedia melakukan revisi maksimal 2 kali jika ada penyesuaian.</li>
+                </ul>
+            </div>
+            
+            <h2 class="section-title">Keahlian yang Relevan</h2>
+            <div class="tags-container">
+                <span class="tag">Adobe Illustrator</span>
+                <span class="tag">Adobe Photoshop</span>
+                <span class="tag">Desain Grafis</span>
+                <span class="tag">Layouting</span>
+            </div>
+        </div>
+
+        <!-- Kolom Kanan: Form Lamaran / Ambil Proyek -->
+        <div class="apply-card">
+            <div class="price-box">
+                <div class="price-label">Anggaran Klien / Imbalan</div>
+                <div class="price-amount">Rp 150.000</div>
+            </div>
+            
+            <div class="security-badge">
+                <span>🔒</span>
+                <div class="security-text">
+                    <strong>Sistem Pembayaran Aman (Escrow)</strong><br>
+                    Dana Rp 150.000 sudah ditahan oleh Skill Hub. Kerjakan proyek tanpa takut klien tidak membayar.
+                </div>
+            </div>
+
+            <form id="applyForm">
+                <div class="form-group">
+                    <label class="form-label">Mengapa Anda cocok untuk tugas ini?</label>
+                    <textarea class="form-control" placeholder="Tuliskan pesan singkat kepada klien. Contoh: 'Halo, saya mahasiswa DKV semester 5 yang sering menangani proyek desain F&B...'"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Estimasi Selesai</label>
+                    <select class="form-control">
+                        <option>Bisa selesai dalam 1 hari</option>
+                        <option>Bisa selesai dalam 2 hari</option>
+                        <option>Selesai tepat pada deadline (3 hari)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Link Portofolio (Opsional)</label>
+                    <input type="url" class="form-control" placeholder="https://dribbble.com/username">
+                </div>
+                
+                <button type="button" class="btn-primary" onclick="submitApplication()">Kirim Proposal Saya</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function submitApplication() {
+            // Simulasi ketika mahasiswa menekan tombol submit
+            const btn = document.querySelector('.apply-card .btn-primary');
+            btn.innerHTML = 'Mengirim...';
+            btn.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                alert('Proposal berhasil dikirim ke Klien! Klien akan meninjau profil Skill Hub Anda. Anda dapat mengecek status lamaran di Dashboard Mahasiswa.');
+                window.location.href = 'jobs.html'; // Redirect kembali ke halaman pencarian kerja
+            }, 1500);
+        }
+    </script>
+
+</body>
+</html>

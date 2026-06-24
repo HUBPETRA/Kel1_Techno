@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Hub - Pesan Mahasiswa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* [Gunakan CSS yang sama persis dengan yang ada di chat-room.html sebelumnya] */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; height: 100vh; display: flex; flex-direction: column; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); z-index: 100; }
+        .logo { font-size: 24px; font-weight: 800; color: #f28c28; letter-spacing: -0.5px; }
+        .nav-links { list-style: none; display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: #64748b; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #f28c28; }
+        .chat-container { display: flex; flex: 1; overflow: hidden; max-width: 1200px; margin: 20px auto; width: 95%; background: white; border-radius: 16px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
+        .chat-sidebar { width: 320px; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; background: #f8fafc; }
+        .sidebar-header { padding: 20px; border-bottom: 1px solid #e2e8f0; font-weight: 800; font-size: 1.2rem; color: #0f172a; }
+        .contact-list { overflow-y: auto; flex: 1; }
+        .contact-item { padding: 15px 20px; border-bottom: 1px solid #e2e8f0; cursor: pointer; display: flex; gap: 15px; align-items: center; transition: 0.2s; }
+        .contact-item:hover { background: white; }
+        .contact-item.active { background: white; border-left: 4px solid #f28c28; }
+        .contact-avatar { width: 45px; height: 45px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .contact-info { flex: 1; overflow: hidden; }
+        .contact-info h4 { font-size: 0.95rem; color: #0f172a; margin-bottom: 3px; }
+        .contact-info p { font-size: 0.8rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .unread-dot { width: 10px; height: 10px; background: #ef4444; border-radius: 50%; margin-left: auto; }
+        .chat-main { flex: 1; display: flex; flex-direction: column; background: white; }
+        .chat-header { padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .chat-header-info h2 { font-size: 1.1rem; color: #0f172a; }
+        .chat-header-info p { font-size: 0.85rem; color: #10b981; font-weight: 500; }
+        .deal-card { margin: 20px; background: #fff3e8; border: 2px dashed #fbd38d; padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .deal-details h3 { font-size: 1.1rem; color: #9c4221; margin-bottom: 5px; }
+        .deal-details p { font-size: 0.9rem; color: #c05621; font-weight: 500; }
+        .deal-actions { display: flex; gap: 10px; }
+        .btn-accept { background: #f28c28; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-accept:hover { background: #e07b1f; }
+        .btn-decline { background: transparent; color: #64748b; border: 1px solid #cbd5e1; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-decline:hover { background: #f1f5f9; color: #0f172a; }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; background: #f8fafc; }
+        .message { max-width: 70%; padding: 12px 16px; border-radius: 12px; font-size: 0.95rem; line-height: 1.5; position: relative; }
+        .msg-time { font-size: 0.7rem; color: #94a3b8; position: absolute; bottom: -20px; }
+        .msg-received { background: white; color: #1e293b; border: 1px solid #e2e8f0; align-self: flex-start; border-bottom-left-radius: 0; }
+        .msg-received .msg-time { right: 0; }
+        .msg-sent { background: #f28c28; color: white; align-self: flex-end; border-bottom-right-radius: 0; }
+        .msg-sent .msg-time { left: 0; }
+        .chat-input { padding: 20px; border-top: 1px solid #e2e8f0; display: flex; gap: 15px; background: white; }
+        .chat-input input { flex: 1; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; font-size: 0.95rem; }
+        .chat-input input:focus { border-color: #f28c28; }
+        .btn-send { background: #0f172a; color: white; border: none; padding: 0 25px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        .btn-outline { background: white; color: #0f172a; border: 2px solid #cbd5e1; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+        .btn-outline:hover { background: #f8fafc; border-color: #94a3b8; }
+        .btn-danger { background: #fee2e2; color: #ef4444; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; text-decoration: none; display: inline-block; }
+        .btn-danger:hover { background: #fecaca; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Skill Hub.</div>
+        <ul class="nav-links">
+            <li><a href="jobs.html">Cari Proyek</a></li>
+            <li><a href="dashboard-mahasiswa.html">Dashboard Saya</a></li>
+        </ul>
+        <div class="auth-buttons" style="display: flex; align-items: center; flex-direction: row; gap: 10px;">
+            <a href="#" class="btn-outline" style="border-color: #f28c28; color: #f28c28;">💬 Pesan (1)</a>
+            <a href="index.html" class="btn-danger">Logout</a>
+        </div>
+    </nav>
+
+    <div class="chat-container">
+        <div class="chat-sidebar">
+            <div class="sidebar-header">Kotak Masuk (Mahasiswa)</div>
+            <div class="contact-list">
+                <div class="contact-item active">
+                    <div class="contact-avatar">☕</div>
+                    <div class="contact-info">
+                        <h4>Kopi Senja Surabaya</h4>
+                        <p>Tentu, kami ingin nuansa...</p>
+                    </div>
+                    <div class="unread-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-main">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <h2>Kopi Senja Surabaya (Klien)</h2>
+                    <p>● Sedang Online</p>
+                </div>
+                <div style="font-size: 0.85rem; color: #64748b; background: #f1f5f9; padding: 6px 12px; border-radius: 6px;">Topik: Desain Banner</div>
+            </div>
+
+            <div class="deal-card" id="dealCard">
+                <div class="deal-details">
+                    <h3>PENAWARAN PROYEK MASUK</h3>
+                    <p>💰 Anggaran: Rp 150.000 &nbsp; | &nbsp; ⏳ Deadline: 3 Hari</p>
+                    <span style="font-size: 0.8rem; color: #9c4221; margin-top: 5px; display: block;">Klien mengirimkan penawaran resmi. Uang akan ditahan di Escrow jika disetujui.</span>
+                </div>
+                <div class="deal-actions">
+                    <button class="btn-decline" onclick="alert('Penawaran ditolak.')">Tolak Tawaran</button>
+                    <button class="btn-accept" onclick="acceptDeal()">Terima Proyek</button>
+                </div>
+            </div>
+
+            <div class="chat-messages">
+                <div class="message msg-received">
+                    Halo Raka, saya tertarik untuk menyewa jasa kamu membuat desain banner standing kedai kopi saya.
+                    <div class="msg-time">10:45 AM</div>
+                </div>
+                <div class="message msg-sent">
+                    Halo Bapak/Ibu! Boleh saya lihat logo dan preferensi warnanya terlebih dahulu?
+                    <div class="msg-time">10:50 AM</div>
+                </div>
+                <div class="message msg-received">
+                    Tentu, kami ingin nuansa warna coklat dan emas. Detail teksnya sudah saya masukkan di penawaran. Apakah cocok?
+                    <div class="msg-time">10:52 AM</div>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <input type="text" placeholder="Tulis balasan...">
+                <button class="btn-send">Kirim</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function acceptDeal() {
+            const card = document.getElementById('dealCard');
+            card.style.background = '#f0fdf4';
+            card.style.borderColor = '#86efac';
+            card.innerHTML = `
+                <div class="deal-details">
+                    <h3 style="color: #166534;">✅ PROYEK DISETUJUI</h3>
+                    <p style="color: #15803d;">Dana Rp 150.000 telah diamankan di sistem Escrow.</p>
+                </div>
+                <div><button class="btn-accept" style="background: #10b981;" onclick="window.location.href='dashboard-mahasiswa.html'">Ke Dashboard Proyek</button></div>
+            `;
+            
+            const chatBox = document.querySelector('.chat-messages');
+            const sysMessage = document.createElement('div');
+            sysMessage.style.cssText = 'align-self:center;background:#e2e8f0;padding:8px 16px;border-radius:20px;font-size:0.8rem;color:#475569;margin-top:20px;';
+            sysMessage.innerHTML = '🔒 Anda menerima penawaran. Selamat bekerja!';
+            chatBox.appendChild(sysMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>

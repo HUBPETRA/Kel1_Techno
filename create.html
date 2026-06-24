@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Penawaran - Skill Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-color: #f4f7f6;">
+
+    <nav class="navbar">
+        <div class="logo">Skill Hub <span style="font-size: 12px; color: #1e8e3e;">(Talent)</span></div>
+        <ul class="nav-links">
+            <li><a href="dashboard-mahasiswa.html">Dashboard</a></li>
+            <li><a href="jobs-mahasiswa.html">Cari Referensi</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="create.html" class="btn-primary" style="text-decoration: none;">+ Buat Penawaran</a>
+            <a href="profile.html" class="btn-secondary" style="text-decoration: none;">Profil Saya</a>
+        </div>
+    </nav>
+
+    <main class="create-container" style="max-width: 700px; margin: 40px auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <div class="create-header" style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #333; margin-bottom: 10px;">Mulai Tawarkan Skill-mu! 🚀</h1>
+            <p style="color: #666;">Pilih jenis penawaran dan isi detailnya di bawah ini.</p>
+        </div>
+
+        <form id="offerForm" class="create-form" onsubmit="tampilkanSukses(event)">
+            
+            <div class="form-group" style="margin-bottom: 25px;">
+                <label style="display: block; font-weight: bold; margin-bottom: 10px; color: #333;">Apa yang ingin kamu tawarkan?</label>
+                <div class="type-selection" style="display: flex; gap: 15px;">
+                    <label class="type-card" style="flex: 1; border: 2px solid #ccc; padding: 15px; border-radius: 8px; cursor: pointer; transition: 0.3s;" onmouseover="this.style.borderColor='#f28c28'" onmouseout="if(!this.querySelector('input').checked) this.style.borderColor='#ccc'">
+                        <input type="radio" name="offerType" value="job" checked onchange="toggleFormFields()" style="margin-bottom: 10px;">
+                        <div class="card-content">
+                            <h3 style="margin-bottom: 5px; color: #333;">🛠️ Micro-Job</h3>
+                            <p style="font-size: 13px; color: #666;">Tawarkan jasa pengerjaan proyek (mis: desain logo, translate).</p>
+                        </div>
+                    </label>
+                    <label class="type-card" style="flex: 1; border: 2px solid #ccc; padding: 15px; border-radius: 8px; cursor: pointer; transition: 0.3s;" onmouseover="this.style.borderColor='#f28c28'" onmouseout="if(!this.querySelector('input').checked) this.style.borderColor='#ccc'">
+                        <input type="radio" name="offerType" value="tutor" onchange="toggleFormFields()" style="margin-bottom: 10px;">
+                        <div class="card-content">
+                            <h3 style="margin-bottom: 5px; color: #333;">📚 Kelas Tutor</h3>
+                            <p style="font-size: 13px; color: #666;">Buka sesi mengajar atau mentoring untuk mahasiswa lain.</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="title" style="display: block; font-weight: bold; margin-bottom: 5px; color: #333;">Judul Penawaran</label>
+                <input type="text" id="title" placeholder="Contoh: Desain Feed Instagram UMKM (Isi 3)" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="desc" style="display: block; font-weight: bold; margin-bottom: 5px; color: #333;">Deskripsi Lengkap</label>
+                <textarea id="desc" rows="4" placeholder="Jelaskan apa saja yang akan didapatkan oleh klien/muridmu..." required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;"></textarea>
+            </div>
+
+            <div id="dynamicFields" class="dynamic-group" style="margin-bottom: 25px;">
+                <div class="form-row" style="display: flex; gap: 15px;">
+                    <div class="form-group half" style="flex: 1;">
+                        <label for="price" style="display: block; font-weight: bold; margin-bottom: 5px; color: #333;">Harga (Rp)</label>
+                        <input type="number" id="price" placeholder="Contoh: 50000" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+                    <div class="form-group half" id="deliveryTimeGroup" style="flex: 1;">
+                        <label for="delivery" id="deliveryLabel" style="display: block; font-weight: bold; margin-bottom: 5px; color: #333;">Waktu Pengerjaan</label>
+                        <select id="delivery" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                            <option value="1">1 Hari</option>
+                            <option value="3">3 Hari</option>
+                            <option value="7">1 Minggu</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary submit-btn" id="submitBtn" style="width: 100%; padding: 12px; font-size: 16px;">Terbitkan Penawaran</button>
+        </form>
+
+        <div id="successScreen" class="success-screen" style="display: none; text-align: center; padding: 40px 20px;">
+            <div class="success-icon" style="font-size: 50px; margin-bottom: 15px;">🎉</div>
+            <h2 style="color: #333; margin-bottom: 10px;">Penawaran Berhasil Diterbitkan!</h2>
+            <p style="color: #666; margin-bottom: 25px;">Hebat! Sekarang penawaranmu sudah live dan bisa dilihat oleh klien.</p>
+            <a href="dashboard-mahasiswa.html" class="btn-primary" style="text-decoration: none; display: inline-block;">Kembali ke Dashboard</a>
+        </div>
+
+    </main>
+
+    <script>
+        // Logika untuk mengubah opsi 'Waktu Pengerjaan' menjadi 'Durasi Mengajar'
+        function toggleFormFields() {
+            const isTutor = document.querySelector('input[name="offerType"][value="tutor"]').checked;
+            const deliveryLabel = document.getElementById('deliveryLabel');
+            const deliverySelect = document.getElementById('delivery');
+
+            if (isTutor) {
+                deliveryLabel.innerText = "Durasi Mengajar";
+                deliverySelect.innerHTML = `
+                    <option value="1jam">1 Jam</option>
+                    <option value="2jam">2 Jam</option>
+                    <option value="paket">Paket 1 Bulan</option>
+                `;
+            } else {
+                deliveryLabel.innerText = "Waktu Pengerjaan";
+                deliverySelect.innerHTML = `
+                    <option value="1">1 Hari</option>
+                    <option value="3">3 Hari</option>
+                    <option value="7">1 Minggu</option>
+                `;
+            }
+
+            // Beri efek warna pada kotak yang dipilih
+            document.querySelectorAll('.type-card').forEach(card => card.style.borderColor = '#ccc');
+            document.querySelector('input[name="offerType"]:checked').parentElement.style.borderColor = '#f28c28';
+        }
+
+        // Logika saat tombol Submit ditekan
+        function tampilkanSukses(event) {
+            event.preventDefault(); // Mencegah halaman reload
+            document.getElementById('offerForm').style.display = 'none'; // Sembunyikan form
+            document.getElementById('successScreen').style.display = 'block'; // Tampilkan layar sukses
+        }
+    </script>
+</body>
+</html>

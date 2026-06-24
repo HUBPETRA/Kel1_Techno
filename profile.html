@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Hub - Profil & Portofolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; line-height: 1.6; }
+
+        /* Navbar */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(255, 255, 255, 0.95); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo { font-size: 26px; font-weight: 800; color: #f28c28; letter-spacing: -0.5px; }
+        .nav-links { list-style: none; display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: #64748b; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #f28c28; }
+
+        /* Buttons */
+        .btn-primary { background: #f28c28; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; font-size: 1rem; }
+        .btn-primary:hover { background: #e07b1f; transform: translateY(-2px); box-shadow: 0 6px 12px rgba(242, 140, 40, 0.2); }
+        .btn-outline { background: white; color: #0f172a; border: 2px solid #cbd5e1; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+        .btn-outline:hover { background: #f8fafc; border-color: #94a3b8; }
+
+        /* Layout Container */
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 5%; display: grid; grid-template-columns: 300px 1fr; gap: 30px; }
+
+        /* Sidebar Profile */
+        .profile-card { background: white; border-radius: 16px; padding: 30px 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; text-align: center; height: fit-content; position: sticky; top: 100px; }
+        
+        .avatar-container { position: relative; width: 120px; height: 120px; margin: 0 auto 20px; }
+        .avatar { width: 100%; height: 100%; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 3rem; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .verified-badge { position: absolute; bottom: 5px; right: 5px; background: #10b981; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid white; font-size: 0.9rem; }
+
+        .profile-name { font-size: 1.5rem; color: #0f172a; font-weight: 800; margin-bottom: 5px; }
+        .profile-role { color: #f28c28; font-weight: 600; font-size: 1rem; margin-bottom: 5px; }
+        .profile-univ { color: #64748b; font-size: 0.85rem; margin-bottom: 20px; display: flex; flex-direction: column; }
+        
+        .profile-stats { display: flex; justify-content: space-around; padding: 20px 0; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; margin-bottom: 20px; }
+        .stat-val { font-weight: 800; color: #0f172a; font-size: 1.2rem; }
+        .stat-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .skills-container { text-align: left; margin-bottom: 25px; }
+        .skills-title { font-size: 0.95rem; color: #0f172a; font-weight: 700; margin-bottom: 10px; }
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tag { background: #f8fafc; color: #475569; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; font-weight: 500; border: 1px solid #e2e8f0; }
+
+        /* Auto Portfolio Section */
+        .portfolio-content { background: transparent; }
+        
+        /* Magic Banner */
+        .magic-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; padding: 25px; border-radius: 16px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .magic-text h2 { font-size: 1.25rem; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; }
+        .magic-text p { color: #94a3b8; font-size: 0.95rem; }
+        .cv-button { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); color: white; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); }
+        .cv-button:hover { background: white; color: #0f172a; }
+
+        .section-header { font-size: 1.5rem; color: #0f172a; font-weight: 800; margin-bottom: 20px; }
+
+        /* Timeline / Project List */
+        .project-card { background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 20px; transition: 0.3s; position: relative; overflow: hidden; }
+        .project-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #cbd5e1; }
+        
+        .project-date { position: absolute; top: 30px; right: 30px; color: #94a3b8; font-size: 0.85rem; font-weight: 500; }
+        
+        .project-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .project-icon { width: 45px; height: 45px; background: #fff3e8; color: #f28c28; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; }
+        .project-title { font-size: 1.2rem; color: #0f172a; font-weight: 700; }
+        .project-client { color: #64748b; font-size: 0.9rem; }
+
+        .review-box { background: #f8fafc; border-left: 4px solid #fbbf24; padding: 15px 20px; border-radius: 0 8px 8px 0; margin-top: 20px; }
+        .stars { color: #fbbf24; letter-spacing: 2px; font-size: 1rem; margin-bottom: 5px; }
+        .review-text { font-style: italic; color: #475569; font-size: 0.95rem; }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            .profile-card { position: static; }
+            .magic-banner { flex-direction: column; text-align: center; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Skill Hub.</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="jobs.html">Micro-Job</a></li>
+            <li><a href="talent.html" class="active">Cari Talent</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="#" class="btn-outline">Notifikasi</a>
+            <a href="index.html" class="btn-primary">Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Sidebar Profile -->
+        <aside class="profile-card">
+            <div class="avatar-container">
+                <div class="avatar">👨‍💻</div>
+                <div class="verified-badge" title="SSO Kampus Terverifikasi">✓</div>
+            </div>
+            
+            <h1 class="profile-name">Raka Pratama</h1>
+            <div class="profile-role">UI/UX & Graphic Designer</div>
+            <div class="profile-univ">
+                <span>Sistem Informasi, Semester 7</span>
+                <span style="color: #94a3b8; margin-top: 2px;">Institut Teknologi Sepuluh Nopember</span>
+            </div>
+            
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-val">⭐ 4.9</div>
+                    <div class="stat-label">Rating</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">12</div>
+                    <div class="stat-label">Proyek</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val">100%</div>
+                    <div class="stat-label">Tepat Waktu</div>
+                </div>
+            </div>
+
+            <div class="skills-container">
+                <div class="skills-title">Keahlian Tervalidasi</div>
+                <div class="tags">
+                    <span class="tag">Figma</span>
+                    <span class="tag">Adobe Illustrator</span>
+                    <span class="tag">UI Design</span>
+                    <span class="tag">Sosmed Template</span>
+                </div>
+            </div>
+
+            <!-- Tombol Action (Berubah tergantung siapa yang melihat) -->
+            <button class="btn-primary" style="width: 100%; margin-top: 10px;" onclick="alert('Diarahkan ke form penawaran pekerjaan...')">Sewa Jasa Raka</button>
+        </aside>
+
+        <!-- Main Content: Auto-Portfolio -->
+        <main class="portfolio-content">
+            
+            <!-- Magic Banner (UVP Showcase) -->
+            <div class="magic-banner">
+                <div class="magic-text">
+                    <h2>✨ Auto-Portfolio Builder</h2>
+                    <p>Riwayat proyek di bawah ini dicatat secara otomatis oleh sistem Skill Hub.</p>
+                </div>
+                <button class="cv-button" onclick="downloadCV()">⬇ Download CV (.PDF)</button>
+            </div>
+
+            <h3 class="section-header">Riwayat Pekerjaan</h3>
+
+            <!-- Project 1 -->
+            <div class="project-card">
+                <div class="project-date">Bulan Lalu</div>
+                <div class="project-header">
+                    <div class="project-icon">🎨</div>
+                    <div>
+                        <div class="project-title">Desain Banner Standing Kedai Kopi</div>
+                        <div class="project-client">Klien: UMKM Kopi Senja Surabaya</div>
+                    </div>
+                </div>
+                <p style="color: #475569; font-size: 0.95rem;">Merancang 2 variasi desain banner standing promosi untuk peluncuran menu baru. Diselesaikan dalam waktu 2 hari dengan 1 kali revisi kecil.</p>
+                
+                <div class="review-box">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="review-text">"Hasil kerjanya rapi banget, warnanya pas sama branding kedai kita. Raka juga enak diajak komunikasi dan cepat tanggap kalau ada revisi. Recommended!"</div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card">
+                <div class="project-date">3 Bulan Lalu</div>
+                <div class="project-header">
+                    <div class="project-icon">💻</div>
+                    <div>
+                        <div class="project-title">Redesign UI Landing Page</div>
+                        <div class="project-client">Klien: Startup EduTech Lokal</div>
+                    </div>
+                </div>
+                <p style="color: #475569; font-size: 0.95rem;">Melakukan wireframing dan mendesain ulang tampilan landing page website perusahaan agar lebih modern dan responsif menggunakan Figma.</p>
+                
+                <div class="review-box">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="review-text">"Sangat puas dengan hasilnya. Desain yang diberikan mempermudah tim developer kami untuk langsung melakukan slicing code. Terima kasih!"</div>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="project-card">
+                <div class="project-date">5 Bulan Lalu</div>
+                <div class="project-header">
+                    <div class="project-icon">📝</div>
+                    <div>
+                        <div class="project-title">Tutor Mata Kuliah Desain Antarmuka (UI)</div>
+                        <div class="project-client">Klien: Mahasiswa Semester 3</div>
+                    </div>
+                </div>
+                <p style="color: #475569; font-size: 0.95rem;">Membuka kelas private online (Zoom) selama 2 minggu berturut-turut untuk mengajarkan dasar-dasar Figma kepada adik tingkat untuk persiapan UTS.</p>
+                
+                <div class="review-box">
+                    <div class="stars">⭐⭐⭐⭐☆</div>
+                    <div class="review-text">"Penjelasan Kak Raka gampang banget dimengerti dibanding penjelasan dosen di kelas. Sangat membantu buat persiapan ujian praktek!"</div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function downloadCV() {
+            // Simulasi proses auto-generate PDF
+            const btn = document.querySelector('.cv-button');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '⏳ Sedang Merangkum CV...';
+            btn.style.opacity = '0.8';
+            
+            setTimeout(() => {
+                // Mengembalikan tampilan tombol seperti semula
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+                
+                // Membuka file CV di tab baru
+                window.open('cv-generated.html', '_blank');
+            }, 1500); // Waktu tunggu dikurangi jadi 1.5 detik agar lebih responsif
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Terverifikasi - Raka Pratama</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #334155; color: #1e293b; line-height: 1.6; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
+
+        /* A4 Paper Simulation */
+        .a4-paper { background: white; width: 100%; max-width: 210mm; min-height: 297mm; padding: 20mm; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5); position: relative; }
+        
+        /* Watermark & Badges */
+        .watermark { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 8rem; font-weight: 800; color: rgba(242, 140, 40, 0.03); white-space: nowrap; pointer-events: none; z-index: 0; }
+        .verified-stamp { position: absolute; top: 20mm; right: 20mm; border: 3px solid #10b981; color: #10b981; padding: 10px 15px; border-radius: 8px; text-transform: uppercase; font-weight: 800; font-size: 0.85rem; text-align: center; transform: rotate(5deg); background: rgba(255,255,255,0.9); z-index: 10; }
+        .stamp-sub { font-size: 0.6rem; font-weight: 500; display: block; margin-top: 2px; color: #059669; }
+
+        /* Document Toolbar (Web Only - Not printed) */
+        .pdf-toolbar { background: #1e293b; width: 100%; max-width: 210mm; padding: 15px 20px; border-radius: 12px 12px 0 0; display: flex; justify-content: space-between; align-items: center; margin-bottom: -5px; z-index: 20; position: relative; color: white; }
+        .btn-download { background: #f28c28; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-download:hover { background: #e07b1f; }
+
+        /* Content Container (Relative for z-index) */
+        .content { position: relative; z-index: 1; }
+
+        /* Header */
+        header { border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 25px; }
+        .name { font-size: 2.5rem; font-weight: 800; color: #0f172a; margin-bottom: 5px; text-transform: uppercase; letter-spacing: -1px; }
+        .role { font-size: 1.2rem; color: #f28c28; font-weight: 600; margin-bottom: 15px; }
+        .contact-info { display: flex; gap: 20px; font-size: 0.9rem; color: #475569; }
+        .contact-item { display: flex; align-items: center; gap: 5px; }
+        .contact-icon { font-weight: bold; color: #94a3b8; }
+
+        /* Sections */
+        section { margin-bottom: 30px; }
+        .section-title { font-size: 1.2rem; font-weight: 800; color: #0f172a; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
+        .section-title::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
+
+        /* Experience Items */
+        .exp-item { margin-bottom: 25px; page-break-inside: avoid; }
+        .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .job-title { font-size: 1.1rem; font-weight: 700; color: #0f172a; }
+        .client-name { font-size: 0.95rem; color: #64748b; font-weight: 600; }
+        .job-date { font-size: 0.85rem; color: #94a3b8; font-weight: 500; }
+        
+        .job-desc { font-size: 0.95rem; color: #475569; margin-bottom: 10px; line-height: 1.5; }
+        
+        /* The Review Box (Crucial for Trust) */
+        .verified-review { background: #f8fafc; border-left: 3px solid #f28c28; padding: 12px 15px; border-radius: 0 8px 8px 0; margin-top: 10px; }
+        .stars { color: #f59e0b; font-size: 1rem; margin-bottom: 5px; letter-spacing: 2px; }
+        .review-text { font-style: italic; font-size: 0.9rem; color: #334155; }
+        .review-author { font-size: 0.8rem; color: #94a3b8; margin-top: 5px; font-weight: 600; }
+
+        /* Skills & Education */
+        .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tag { background: #f1f5f9; color: #0f172a; padding: 6px 12px; border-radius: 4px; font-size: 0.9rem; font-weight: 600; border: 1px solid #e2e8f0; }
+        
+        .edu-item { margin-bottom: 15px; }
+        .univ-name { font-size: 1.05rem; font-weight: 700; color: #0f172a; }
+        .major { font-size: 0.95rem; color: #475569; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .a4-paper { box-shadow: none; max-width: 100%; margin: 0; padding: 15mm; }
+            .pdf-toolbar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toolbar Simulasi -->
+    <div class="pdf-toolbar">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            📄 <strong>CV_Raka_Pratama_Verified.pdf</strong>
+        </div>
+        <button class="btn-download" onclick="window.print()">Cetak / Simpan PDF</button>
+    </div>
+
+    <!-- Dokumen Kertas A4 -->
+    <div class="a4-paper">
+        <div class="watermark">SKILL HUB</div>
+        
+        <div class="verified-stamp">
+            ✓ Tervalidasi SSO
+            <span class="stamp-sub">Skill Hub Official Data</span>
+        </div>
+
+        <div class="content">
+            <header>
+                <h1 class="name">Raka Pratama</h1>
+                <div class="role">UI/UX & Graphic Designer</div>
+                <div class="contact-info">
+                    <div class="contact-item"><span class="contact-icon">📧</span> raka.p@student.its.ac.id</div>
+                    <div class="contact-item"><span class="contact-icon">📍</span> Surabaya, Indonesia</div>
+                    <div class="contact-item"><span class="contact-icon">🔗</span> skillhub.id/raka-pratama</div>
+                </div>
+            </header>
+
+            <section>
+                <h2 class="section-title">Profil Ringkas</h2>
+                <p class="job-desc">Mahasiswa Sistem Informasi semester 7 dengan minat mendalam pada Desain Antarmuka (UI) dan Desain Grafis. Telah menyelesaikan lebih dari 12 proyek lepas tervalidasi dengan rekam jejak penyelesaian tepat waktu 100%.</p>
+            </section>
+
+            <section>
+                <h2 class="section-title">Pengalaman Kerja (Tervalidasi Skill Hub)</h2>
+                
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <div>
+                            <div class="job-title">Desainer Grafis (Micro-Job)</div>
+                            <div class="client-name">Klien: UMKM Kopi Senja Surabaya</div>
+                        </div>
+                        <div class="job-date">Okt 2023</div>
+                    </div>
+                    <p class="job-desc">Merancang 2 variasi desain banner standing promosi untuk peluncuran menu baru. Bertanggung jawab atas layouting, tipografi, dan penyesuaian branding guidelines UMKM.</p>
+                    <div class="verified-review">
+                        <div class="stars">★★★★★</div>
+                        <div class="review-text">"Hasil kerjanya rapi banget, warnanya pas sama branding kedai kita. Raka juga enak diajak komunikasi dan cepat tanggap."</div>
+                        <div class="review-author">— Review resmi via sistem Escrow Skill Hub</div>
+                    </div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <div>
+                            <div class="job-title">UI/UX Designer Freelance</div>
+                            <div class="client-name">Klien: Startup EduTech Lokal</div>
+                        </div>
+                        <div class="job-date">Agu 2023</div>
+                    </div>
+                    <p class="job-desc">Melakukan wireframing dan mendesain ulang tampilan landing page website perusahaan agar lebih modern dan responsif menggunakan Figma.</p>
+                    <div class="verified-review">
+                        <div class="stars">★★★★★</div>
+                        <div class="review-text">"Sangat puas dengan hasilnya. Desain yang diberikan mempermudah tim developer kami untuk langsung melakukan slicing code."</div>
+                        <div class="review-author">— Review resmi via sistem Escrow Skill Hub</div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">Pendidikan</h2>
+                <div class="edu-item">
+                    <div class="exp-header">
+                        <div>
+                            <div class="univ-name">Institut Teknologi Sepuluh Nopember (ITS)</div>
+                            <div class="major">S1 Sistem Informasi (IPK: 3.82)</div>
+                        </div>
+                        <div class="job-date">2020 - Sekarang</div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">Keahlian Teknis</h2>
+                <div class="skills-grid">
+                    <span class="skill-tag">Figma</span>
+                    <span class="skill-tag">Adobe Illustrator</span>
+                    <span class="skill-tag">Adobe Photoshop</span>
+                    <span class="skill-tag">Wireframing</span>
+                    <span class="skill-tag">Prototyping</span>
+                    <span class="skill-tag">Desain Visual</span>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</body>
+</html>
